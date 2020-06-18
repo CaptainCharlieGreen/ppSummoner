@@ -3,35 +3,39 @@ module.exports = {
 	locations: [
 		{
 			name: 'ZG',
-			emoji: '🏝'
-		},
-		{
-			name: 'BWL',
-			emoji: '🌋'
+			emoji: '723062941305536562'
 		},
 		{
 			name: 'Mulgore',
-			emoji: '🏞'
+			emoji: '723062395014217748'
 		},
 		{
-			name: 'SOS',
-			emoji: '🆘'
+			name: 'Shout',
+			emoji: '723062695062142986'
 		},
 		{
-			name: 'Xroads',
-			emoji: '❌'
-		},
-		{
-			name: 'org',
-			emoji: '👽'
-		},
-		{
-			name: 'LBRS',
-			emoji: '🔥'
+			name: 'FR',
+			emoji: '723062354933317642'
 		},
 		{
 			name: "SF",
-			emoji: '🌷'
+			emoji: '723062375128891442'
+		},
+		{
+			name: 'Xroads',
+			emoji: '723061289903194133'
+		},
+		{
+			name: 'AQ',
+			emoji: '723063437336248361'
+		},
+		{
+			name: 'Org',
+			emoji: '723060511218073651'
+		},
+		{
+			name: 'BWL',
+			emoji: '723059752891842570'
 		}
 	]
 }

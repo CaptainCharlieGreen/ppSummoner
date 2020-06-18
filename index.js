@@ -2,8 +2,8 @@ const { Client } = require('discord.js');
 const client = new Client();
 const tokens = require('./tokens.json');
 const { locations } = require('./config');
-const { setupRoles } = require('./userRoles');
-const { summonRequest } = require('./summonRequest');
+const { setupRoles, populatePersonel } = require('./userRoles');
+const { summonRequest, showSummoners } = require('./summonRequest');
 const log = msg => console.log(msg)
 const locationNames = new Set(locations.map(loc => loc.name).map(s => s.toLowerCase()))
 
@@ -27,5 +27,25 @@ client.on('message', async message => {
 		}
 	}
 });
+
+async function reactionHandler (reaction, user) {
+	if (reaction.partial) {
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.log('Something went wrong when fetching the message: ', error);
+			return;
+		}
+	}
+	if (reaction.message.author.id !== '721492316908421151') return;
+	if (reaction.message.content === 'Summoners' || reaction.message.content === 'Clickers') {
+		populatePersonel(reaction.message, reaction.message.content === 'Summoners');
+	} else {
+		showSummoners(reaction.message)
+	}
+}
+
+client.on('messageReactionAdd', reactionHandler);
+client.on('messageReactionRemove', reactionHandler);
 
 client.login(tokens.botToken);

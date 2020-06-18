@@ -3,15 +3,23 @@ const { locations, roleChannelName } = require('./config');
 
 async function populatePersonel (message, summoners) {
 	const embed = new MessageEmbed();
+	const guildMembers = message.guild.members.cache;
 	await message.reactions.resolve();
 	const reactions = message.reactions;
-	let users, loc, fields = [];
+	let users, loc, fields = [], emojiText;
 	for (key in locations) {
 		loc = locations[key]
+		if (reactions.cache.get(loc.emoji) === undefined) continue;
+		emojiText = `<:${loc.name}:${loc.emoji}>`
 		users = Array.from(reactions.cache.get(loc.emoji).users.cache.values())
 		fields.push({
-			name: `${loc.emoji} ${loc.name} ${loc.emoji}`,
-			value: users.filter(u => !u.bot).map(u => u.username).join('\n') || '-',
+			name: `${emojiText} ${loc.name} ${emojiText}`,
+			value: users.filter(u => !u.bot).map(u => {
+				if (guildMembers.get(u.id) && guildMembers.get(u.id).nickname !== null) {
+					return guildMembers.get(u.id).nickname
+				}
+				return u.username;
+			}).join('\n') || '-',
 			inline: true
 		})
 	}
@@ -34,15 +42,6 @@ function setupRoles (message, summoners) {
 			for (key in locations) {
 				await message.react(locations[key].emoji)
 			}
-
-			function redrive () {
-				populatePersonel(message, summoners)
-			}
-			const collector = message.createReactionCollector(x=>true);
-			
-			collector.on('collect', redrive);
-
-			redrive();
 		})
 }
 
@@ -82,5 +81,6 @@ async function getUsersWhoReactedTo (message, locationEmoji) {
 
 module.exports = {
 	setupRoles: setupRoles,
-	getUsersForLocation: getUsersForLocation
+	getUsersForLocation: getUsersForLocation,
+	populatePersonel: populatePersonel
 }
