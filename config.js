@@ -5,14 +5,18 @@ module.exports = {
 			name: 'ZG',
 			emoji: '🏝'
 		},
-		// {
-		// 	name: 'BWL',
-		// 	emoji: 
-		// },
-		// {
-		// 	name: 'Mulgore',
-		// 	emoji: 
-		// },
+		{
+			name: 'BWL',
+			emoji: '🌋'
+		},
+		{
+			name: 'Mulgore',
+			emoji: '🏞'
+		},
+		{
+			name: 'SOS',
+			emoji: '🆘'
+		},
 		{
 			name: 'Xroads',
 			emoji: '❌'

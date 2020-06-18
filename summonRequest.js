@@ -3,11 +3,10 @@ const moment = require('moment');
 const { locations } = require('./config');
 const { getUsersForLocation } = require('./userRoles');
 
-
 const emojis = {
-	"Summoners": '🧙‍♀️',
-	"Clickers": '⚙',
-	pendingSummon: '🌌',
+	summoners: '🧙‍♀️',
+	clickers: '⚙',
+	pendingSummon: '✈',
 	alreadySummoned: '✅'
 }
 
@@ -26,8 +25,8 @@ async function populatePersonel (message, serviceUsers, location, origTime) {
 		.map(s => `${s} ${alreadySummoned.has(s) ? emojis.alreadySummoned: ""}`)
 		.join('\n');
 	const fields = [
-		{ name: "Summoners", value: getNamesFor(reactions, emojis.Summoners).join('\n') || "-", inline: true},
-		{ name: "Clickers", value: getNamesFor(reactions, emojis.Clickers).join('\n') || "-", inline: true},
+		{ name: "Summoners", value: getNamesFor(reactions, emojis.summoners).join('\n') || "-", inline: true},
+		{ name: "Clickers", value: getNamesFor(reactions, emojis.clickers).join('\n') || "-", inline: true},
 		{ name: "Passengers", value:  summonText || "-", inline: true},
 	]
 	const embed = new MessageEmbed()
