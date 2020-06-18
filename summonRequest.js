@@ -15,7 +15,7 @@ function getNamesFor (reactions, emoji, guildMembers) {
 	const users = Array.from(reactions.cache.get(emoji).users.cache.values())
 	return users.filter(u => !u.bot)
 		.map(u => {
-			if (guildMembers.get(u.id) && guildMembers.get(u.id) !== null) {
+			if (guildMembers.get(u.id) && guildMembers.get(u.id).nickname !== null) {
 				return guildMembers.get(u.id).nickname
 			}
 			return u.username;
