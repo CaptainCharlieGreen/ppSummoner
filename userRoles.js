@@ -12,14 +12,15 @@ async function populatePersonel (message, summoners) {
 		if (reactions.cache.get(loc.emoji) === undefined) continue;
 		emojiText = `<:${loc.name}:${loc.emoji}>`
 		users = Array.from(reactions.cache.get(loc.emoji).users.cache.values())
+		usersString = users.filter(u => !u.bot).map(u => {
+			if (guildMembers.get(u.id) && guildMembers.get(u.id).nickname != null) {
+				return guildMembers.get(u.id).nickname;
+			}
+			return u.username;
+		}).join('\n');
 		fields.push({
 			name: `${emojiText} ${loc.name} ${emojiText}`,
-			value: users.filter(u => !u.bot).map(u => {
-				if (guildMembers.get(u.id) && guildMembers.get(u.id).nickname !== null) {
-					return guildMembers.get(u.id).nickname
-				}
-				return u.username;
-			}).join('\n') || '-',
+			value: usersString || '-',
 			inline: true
 		})
 	}

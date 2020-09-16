@@ -1,5 +1,5 @@
 const { Client } = require('discord.js');
-const client = new Client();
+const client = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'MEMBERS'] });
 const tokens = require('./tokens.json');
 const { locations } = require('./config');
 const { setupRoles, populatePersonel } = require('./userRoles');
@@ -13,6 +13,7 @@ client.on('ready', () => {
 
 client.on('message', async message => {
 	if (!message.guild) return;
+	if (message.partial) { await message.fetch(); }
 	if (message.content.startsWith('!scb')) {
 		const locationOrSetup = (message.content.split('!scb')[1] || '').trim().toLowerCase();
 		if (locationOrSetup === 'summoners') {
