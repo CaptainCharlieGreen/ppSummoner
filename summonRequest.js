@@ -25,9 +25,6 @@ function getNamesFor (reactions, emoji, guildMembers) {
 async function populatePersonel (message) {
 	const guildMembers = message.guild.members.cache;
 	const location = message.content.split('summon')[0].trim();
-	const users = await getUsersForLocation(message, locations
-		.filter(loc => loc.name.toLowerCase() === location.toLowerCase())[0].emoji);
-	const serviceUsers = users.summoners.concat(users.clickers);
 
 	await message.reactions.resolve();
 	const reactions = message.reactions;
@@ -45,26 +42,20 @@ async function populatePersonel (message) {
 		.setTitle(`Summoning for ${location.toUpperCase()}`)
 		.addFields(fields)
 		.setFooter('---------------------------------------------------------------------------------');
-	message.edit(`${location} summon request ${Array.from(new Set(serviceUsers.map(u => `<@${u.id}>`))).join(' ')}`, embed);
+	message.edit(embed);
 }
 
 async function summonRequest(message, location) {
-	const time = moment().format('hh:mm')
+	const users = await getUsersForLocation(message, locations
+		.filter(loc => loc.name.toLowerCase() === location.toLowerCase())[0].emoji);
+	const serviceUsers = users.summoners.concat(users.clickers);
+	const atList = `${location} summon request ${Array.from(new Set(serviceUsers.map(u => `<@${u.id}>`))).join(' ')}`
 	const embed = new MessageEmbed()
-		.setTitle(`Summoning for ${location.toUpperCase()} @ ${time}`)
-	
-	const msg = await message.channel.send(location, embed)
+		.setTitle(`Summoning for ${location.toUpperCase()}`)
+	const msg = await message.channel.send(atList, embed)
 	for(key in emojis) {
 		await msg.react(emojis[key]);
 	}
-	// function redrive () {
-	// 	populatePersonel(msg, location, time)
-	// }
-	// const collector = msg.createReactionCollector(x=>true, {time: (1000 * 60 * 60), remove: true});
-	
-	// collector.on('collect', redrive);
-
-	// redrive();
 }
 
 module.exports = {
